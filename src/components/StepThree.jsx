@@ -1,46 +1,65 @@
-const StepThree = ({goBack}) => {
+import './StepThree.css';
 
+const StepThree = ({ goBack }) => {
     const handleBack = () => {
         goBack()
     }
 
     return (
-        <div>
-            <div ticket-container>
-                <h2 clsName="ticket-content-one">Your Ticket is Booked!</h2>
-                <p className="ticket-content-two">You can download or Check your email for a copy</p>
-          <div>
-            <h1 className="techember">Techember <br /> Fest ”25</h1>
-            <p className="location"> 04 Rumens road, Ikoyi, Lagos</p>
-            <p className="time">March 15, 2025 | 7:00 PM</p>
-            <img src="User.img.jpg" alt="" />
-            <div className="info-box">
-            <div>
-            <p>Enter your name</p>
-            <p><strong>Avi Chukwu</strong></p>
-          <div>
-            <p>Enter your email</p>
-            <p><strong>User@gmail.com</strong></p>
-          </div>
-          <div>
-            <p>Ticket Type:</p>
-            <p>vip</p>
-          </div>
-          <div>
-            <p>Ticket for:</p>
-            <p>1</p>
+        <div className="step-three-container">
+        
+            <div className="booking-status">
+                <h2>Your Ticket is Booked!</h2>
+                <p>You can download or Check your email for a copy</p>
             </div>
-          </div>
-          </div>
-            <div className="request-container">
-                <p className="request">Special request?</p>
-                <p className="request-content">Nil ? Or the users sad story they write in there gets this whole space, Max of three rows</p>
+
+            <div className="step-three-ticket-container">
+                <div className="ticket">
+                    <div className="qr-code">
+                        <img 
+                            src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(
+                                JSON.stringify({
+                                    event: "Techember Fest '25",
+                                    date: "March 15, 2025",
+                                    time: "7:00 PM",
+                                    location: "04 Rumens road, Ikoyi, Lagos",
+                                    ticketId: Math.random().toString(36).substr(2, 9)
+                                })
+                            )}`}
+                            alt="QR Code"
+                        />
+                    </div>
+                    
+                    <div className="ticket-content">
+                        <h1 className="event-title">
+                            Techember<br />Fest '25
+                        </h1>
+                        <div className="event-details">
+                            <p className="location">📍 04 Rumens road, Ikoyi, Lagos</p>
+                            <p className="date">📅 March 15, 2025 | 7:00 PM</p>
+                        </div>
+                        
+                        <div className="ticket-info">
+                            <p className="ticket-label">Ticket for 1 entry only</p>
+                        </div>
+                    </div>
+
+                    <div className="ticket-stub">
+                        <span className="reg-tag">REG</span>
+                    </div>
+                </div>
             </div>
-            </div>
-            </div>
-            <div className="buttons">
-                <button className="primary-button" onClick={handleBack}>Book Another Ticket</button>
-                <button className="secondary-button" >Download Ticket</button>
+
+            <div className="action-buttons">
+                <button 
+                    className="book-another-btn"
+                    onClick={handleBack}
+                >
+                    Book Another Ticket
+                </button>
+                <button className="download-btn">
+                    Download Ticket
+                </button>
             </div>
         </div>
     )
