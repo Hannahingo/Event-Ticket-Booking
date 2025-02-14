@@ -1,9 +1,36 @@
+import { useRef } from 'react';
+import html2canvas from 'html2canvas';
 import './StepThree.css';
 
 const StepThree = ({ goBack }) => {
+    const ticketRef = useRef(null);
+
     const handleBack = () => {
         goBack()
     }
+
+    const downloadTicket = async () => {
+        if (ticketRef.current) {
+            try {
+                // Create canvas from ticket element
+                const canvas = await html2canvas(ticketRef.current, {
+                    backgroundColor: null,
+                    scale: 2, // Higher quality
+                });
+
+                // Convert to data URL
+                const dataUrl = canvas.toDataURL('image/png');
+
+                // Create download link
+                const link = document.createElement('a');
+                link.download = 'TechemberFest25-Ticket.png';
+                link.href = dataUrl;
+                link.click();
+            } catch (err) {
+                console.error('Error downloading ticket:', err);
+            }
+        }
+    };
 
     return (
         <div className="step-three-container">
@@ -14,7 +41,7 @@ const StepThree = ({ goBack }) => {
             </div>
 
             <div className="step-three-ticket-container">
-                <div className="ticket">
+                <div className="ticket" ref={ticketRef}>
                     <div className="qr-code">
                         <img 
                             src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(
@@ -57,7 +84,10 @@ const StepThree = ({ goBack }) => {
                 >
                     Book Another Ticket
                 </button>
-                <button className="download-btn">
+                <button 
+                    className="download-btn"
+                    onClick={downloadTicket}
+                >
                     Download Ticket
                 </button>
             </div>
